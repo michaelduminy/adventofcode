@@ -1,0 +1,9 @@
+g RSHIFT 3 -> u
+xs LSHIFT 2 -> fa
+xs AND yt -> d
+123 -> xs
+xs OR yt -> e
+yt RSHIFT 2 -> g
+NOT xs -> hhhh
+NOT yt -> i
+456 -> yt
