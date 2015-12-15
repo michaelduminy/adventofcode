@@ -12,6 +12,10 @@ for (var i = 0; i < input.length; i++) {
 	} else if (input[i] === ')'){
 		floor--;
 	}
+
+	if (floor == -1){
+		console.log(i+1, 'entered basement')
+	}
 }
 
 console.log('floor: ' + floor);
