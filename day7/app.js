@@ -45,10 +45,11 @@ var evaluate = function(v) {
 		calc: extractCalc(dependancy)
 	};
 
-	var resolvedArgs = _.map(signal.args, x => evaluate(x)).value();
+	var resolvedArgs = _.map(signal.args, x => evaluate(x));
 
 	circuit[v] = signal.calc ? signal.calc.apply(this, resolvedArgs) : resolvedArgs[0];
 	return circuit[v];
 }
 
 evaluate('a');
+console.log(circuit.a)
