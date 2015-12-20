@@ -43,7 +43,7 @@ function findFarthestFrom(from){
 	p = _.filter(p, n => _.indexOf(locs1, n[0]) !== -1)
 	// console.log('after filter',p)
 
-	var farthestVal = _.min(_.map(p, n => n[1]));
+	var farthestVal = _.sample(_.map(p, n => n[1]));
 
 	return {
 		to: _.flatten(p)[_.indexOf(_.flatten(p), farthestVal) - 1],
@@ -52,6 +52,7 @@ function findFarthestFrom(from){
 }
 
 var shortest = 1000;
+var largest = 0;
 var locs1 = [];
 for(var i = 0; i < 100000; i++){
 
@@ -89,10 +90,11 @@ for(var i = 0; i < 100000; i++){
 
 	var total = _.sum(calc, n => n.d)
 	if (total < shortest) shortest = total;
+	if (total > largest) largest = total;
 	// console.log(total)
 	}
 
-console.log(shortest)
+console.log(shortest, largest)
 
 // for(var path in paths) {
 // 	if (prev === '') {
