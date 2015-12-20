@@ -35,57 +35,64 @@ console.log(paths)
 console.log(locs)
 var pi = 0; // path index
 var dist = 0; // distance
-var prev = '';
 
-function findClosestFrom(from){
-	console.log(from)
+function findFarthestFrom(from){
+	// console.log(from)
 	var p = paths[from];
 
-	p = _.filter(p, n => _.indexOf(locs, n[0]) !== -1)
-	console.log('after filter',p)
+	p = _.filter(p, n => _.indexOf(locs1, n[0]) !== -1)
+	// console.log('after filter',p)
 
-	var closestVal = _.min(_.map(p, n => n[1]));
+	var farthestVal = _.max(_.map(p, n => n[1]));
 
 	return {
-		to: _.flatten(p)[_.indexOf(_.flatten(p), closestVal) - 1],
-		d: closestVal
+		to: _.flatten(p)[_.indexOf(_.flatten(p), farthestVal) - 1],
+		d: farthestVal
 	}
 }
 
-locs = _.shuffle(locs);
-console.log(locs)
+var largest = 0;
+var locs1;
+for(var i = 0; i < 100000; i++){
 
-var first = locs.shift();
-var prev = {to:first};
-//locs.splice(_.indexOf(locs, first),1);
+	locs1 = _.shuffle(locs);
+	// console.log(locs)
 
-var calc = [];
+	var first = locs1.shift();
+	var prev = {to:first};
+	//locs.splice(_.indexOf(locs, first),1);
 
-while(locs.length > 0){
+	var calc = [];
 
-	if(locs.length == 1){
-		console.log('last one', prev, 'to', first)
-		var p = paths[prev.to];
-		console.log(p)
-		var roundTrip = _.flatten(p)[_.indexOf(_.flatten(p), first)+1];
-		console.log(roundTrip);
-		//calc.push({place: first, d: roundTrip})
-		//break;
+	while(locs1.length > 0){
+
+		if(locs1.length == 1){
+			// console.log('last one', prev, 'to', first)
+			var p = paths[prev.to];
+			// console.log(p)
+			var roundTrip = _.flatten(p)[_.indexOf(_.flatten(p), first)+1];
+			// console.log(roundTrip);
+			//calc.push({place: first, d: roundTrip})
+			//break;
+		}
+		
+		var tmpplc = prev.to;
+		prev = findFarthestFrom(prev.to);
+		prev.from = tmpplc;
+		calc.push(prev)
+		// console.log(prev)
+		locs1.splice(_.indexOf(locs1, prev.to),1);
+		// console.log(locs)
 	}
-	
-	var tmpplc = prev.to;
-	prev = findClosestFrom(prev.to);
-	prev.from = tmpplc;
-	calc.push(prev)
-	console.log(prev)
-	locs.splice(_.indexOf(locs, prev.to),1);
-	console.log(locs)
-}
 
-console.log(calc)
+	// console.log(calc)
 
-var total = _.sum(calc, n => n.d)
-console.log(total)
+	var total = _.sum(calc, n => n.d)
+	if (total > largest) largest = total;
+	// console.log(total)
+	}
+
+console.log(largest)
 
 // for(var path in paths) {
 // 	if (prev === '') {
