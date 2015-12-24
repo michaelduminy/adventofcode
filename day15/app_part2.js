@@ -57,6 +57,9 @@ var calc = (c, it) => {
 
 var judge = (c) => {
 
+	var calories = calc(c, 4);
+	if (calories != 500) return 0;
+
 	var capacity = zeroWrap(calc(c, 0));
 	var durability = zeroWrap(calc(c, 1));
 	var flavor = zeroWrap(calc(c, 2));
@@ -64,6 +67,7 @@ var judge = (c) => {
 
 	return capacity * durability * flavor * texture;
 }
+
 
 var score = 0;
 var highscore = 0;
@@ -75,6 +79,7 @@ while (combo.join() != '100,100,100,100') {
 		score = judge(combo);
 		if (score == 0) continue;
 
+		console.log(combo, score, highscore)
 		if (score > highscore) highscore = score;
 	}
 }
