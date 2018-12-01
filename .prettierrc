@@ -1,0 +1,8 @@
+{
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "requirePragma": false,
+  "useTabs": false,
+  "singleQuote": true,
+  "semi": true
+}

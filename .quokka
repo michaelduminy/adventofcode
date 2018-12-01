@@ -1,0 +1,4 @@
+{
+  "plugins": ["quokka-plugin-subdir"],
+  "subdir": "2018"
+}
