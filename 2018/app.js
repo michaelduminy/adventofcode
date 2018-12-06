@@ -1,5 +1,6 @@
 import * as dayOne from './src/days/01/index';
 import * as dayTwo from './src/days/02/index';
+import * as dayThree from './src/days/03/index';
 
 const app = async day => {
   switch (day) {
@@ -11,6 +12,10 @@ const app = async day => {
       return await dayTwo.partOne();
     case '02b':
       return await dayTwo.partTwo();
+    case '03':
+      return await dayThree.partOne();
+    case '03b':
+      return await dayThree.partTwo();
     default:
       console.log('No day specified');
   }
