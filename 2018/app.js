@@ -1,24 +1,22 @@
-import * as dayOne from './src/days/01/index';
-import * as dayTwo from './src/days/02/index';
-import * as dayThree from './src/days/03/index';
+import R from 'ramda';
 
-const app = async day => {
-  switch (day) {
-    case '01':
-      return await dayOne.partOne();
-    case '01b':
-      return await dayOne.partTwo();
-    case '02':
-      return await dayTwo.partOne();
-    case '02b':
-      return await dayTwo.partTwo();
-    case '03':
-      return await dayThree.partOne();
-    case '03b':
-      return await dayThree.partTwo();
-    default:
-      console.log('No day specified');
-  }
+const dayRegex = /(\d{1,2})(b*)/;
+const extractDay = input => {
+  const regexResult = R.tail(dayRegex.exec(input));
+
+  return {
+    day: regexResult[0].padStart(2, '0'),
+    part: regexResult[1] === 'b' ? 2 : 1
+  };
+};
+
+const app = async (input = '') => {
+  const { day, part } = extractDay(input);
+
+  const dayModule = require(`./src/days/${day}`);
+
+  const func = part == 1 ? dayModule.partOne : dayModule.partTwo;
+  return await func();
 };
 
 export default app;

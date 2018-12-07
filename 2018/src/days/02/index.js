@@ -10,7 +10,7 @@ const haveExactly = num => {
 };
 
 const partOne = async () => {
-  const input = await readFile('./src/days/02/input.txt');
+  const input = await readFile(__dirname + '/input.txt');
   let result = { twos: 0, threes: 0 };
   R.pipe(
     R.curry(R.split)('\n'),
@@ -31,7 +31,7 @@ const partOne = async () => {
 
 // damn this one is dirty
 const partTwo = async () => {
-  const input = await readFile('./src/days/02/input.txt');
+  const input = await readFile(__dirname + '/input.txt');
   const splitInput = R.split('\n')(input);
 
   const func = R.pipe(

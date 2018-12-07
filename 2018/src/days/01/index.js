@@ -2,7 +2,7 @@ import R from 'ramda';
 import { readFile } from '../../lib/utils';
 
 const partOne = async () => {
-  const input = await readFile('./src/days/01/input.txt');
+  const input = await readFile(__dirname + '/input.txt');
   const resultFunc = R.pipe(
     R.curry(R.split)('\n'),
     R.map(parseInt),
@@ -13,7 +13,7 @@ const partOne = async () => {
 };
 
 const partTwo = async () => {
-  const input = await readFile('./src/days/01/input.txt');
+  const input = await readFile(__dirname + '/input.txt');
   const cleanArray = R.pipe(
     R.curry(R.split)('\n'),
     R.map(parseInt)
