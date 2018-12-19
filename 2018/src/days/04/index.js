@@ -1,57 +1,32 @@
+import moment from 'moment';
 import R from 'ramda';
 import { readFile } from '../../lib/utils';
-
-const markArea = (arr = [], x, y, w, h) => {
-  for (let i = x; i < x + w; i++) {
-    for (let j = y; j < y + h; j++) {
-      if (arr[i] === undefined) arr[i] = [];
-      arr[i][j] = (arr[i][j] || 0) + 1;
-    }
-  }
-
-  return arr;
-};
-
-let inputRegex = /#(\d+)\s@\s(\d+),(\d+):\s(\d+)x(\d+)/g;
 
 const partOne = async () => {
   const input = await readFile(__dirname + '/input.txt');
 
-  let end = false,
-    area = [];
-  while (!end) {
-    const groups = inputRegex.exec(input);
-    if (groups === null) {
-      end = true;
-      break;
-    }
-
-    const [_, id, x, y, w, h] = groups;
-    area = markArea(area, parseInt(x), parseInt(y), parseInt(w), parseInt(h));
-  }
-
   const resultFunc = R.pipe(
-    R.flatten(),
-    R.countBy(x => x > 1)
+    R.split('\n'),
+    R.map(x => {
+      let date = moment(x.substr(1, 16));
+      let rest = x.substr(19);
+      let guardRegex = rest.match(/\d{1,4}/);
+      return {
+        date: date.hour() === 23 ? date.hour(0).minute(0) : date,
+        guard: (guardRegex || [])[0],
+        rest: x.substr(19)
+      };
+    }),
+    R.sort((a, b) => {
+      let aDate = moment(a.date);
+      let bDate = moment(b.date);
+      if (aDate.isBefore(bDate)) return -1;
+      if (aDate.isAfter(bDate)) return 1;
+      return 0;
+    })
   );
 
-  return resultFunc(area).true;
-};
-
-const areaIntersects = (arr = [], intersects, id, x, y, w, h) => {
-  for (let i = x; i < x + w; i++) {
-    for (let j = y; j < y + h; j++) {
-      if (arr[i] === undefined) arr[i] = [];
-      const currentValue = arr[i][j];
-      if (currentValue !== undefined) {
-        intersects.add(currentValue);
-        intersects.add(id);
-      }
-      arr[i][j] = id;
-    }
-  }
-
-  return arr;
+  return resultFunc(input);
 };
 
 const partTwo = async () => {
